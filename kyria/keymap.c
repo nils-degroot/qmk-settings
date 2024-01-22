@@ -1,33 +1,19 @@
-/* Copyright 2019 Thomas Baart <thomas@splitkb.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 #include QMK_KEYBOARD_H
-#include <stdio.h>
 
 enum layers {
     _QWERTY = 0,
+	_COLEMAK,
     _NAV,
     _SYM,
     _FUNCTION,
     _ADJUST,
-	_MOUSE
+	_MOUSE,
 };
 
 
 // Aliases for readability
 #define QWERTY   DF(_QWERTY)
+#define COLEMAK  DF(_COLEMAK)
 
 #define SYM      MO(_SYM)
 #define NAV      MO(_NAV)
@@ -35,51 +21,67 @@ enum layers {
 #define ADJUST   MO(_ADJUST)
 #define MOUSE    MO(_MOUSE)
 
-// Note: LAlt/Enter (ALT_ENT) is not the same thing as the keyboard shortcut Alt+Enter.
-// The notation `mod/tap` denotes a key that activates the modifier `mod` when held down, and
-// produces the key `tap` when tapped (i.e. pressed and released).
-
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
  * Base Layer: QWERTY
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |  Esc   |   Q  |   W  |   E  |   R  |   T  |                              |   Y  |   U  |   I  |   O  |   P  |  Bksp  |
+ * |  Esc   |   Q  |   W  |   E  |   R  |   T  |                              |   Y  |   U  |   I  |   O  |   P  | Bkps   |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * | LShift |   A  |   S  |   D  |   F  |   G  |                              |   H  |   J  |   K  |   L  | ;  : |  ' "   |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * |  Ctl   |   Z  |   X  |   C  |   V  |   B  | [ {  | Tab  |  |F-keys|  ] } |   N  |   M  | ,  < | . >  | /  ? | RShift |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |Mouse | LGUI | Lalt | Space| Nav  |  | Sym  |Enter |      |      |Adjust|
+ *                        |Mouse | Lalt | LGUI | Space| Nav  |  | Sym  |Enter |      |      |Adjust|
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_QWERTY] = LAYOUT(
-     KC_ESC  , KC_Q ,  KC_W   ,  KC_E  ,   KC_R ,   KC_T ,                                            KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_BSPC,
-     KC_LSFT , KC_A ,  KC_S   ,  KC_D  ,   KC_F ,   KC_G ,                                            KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN, KC_QUOTE,
-     KC_LCTL , KC_Z ,  KC_X   ,  KC_C  ,   KC_V ,   KC_B ,   KC_LBRC  , KC_TAB,     FKEYS  , KC_RBRC, KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, KC_RSFT,
-                                 MOUSE ,   KC_LALT,   KC_LGUI, KC_SPC , NAV   ,     SYM    , KC_ENT,  _______, _______, ADJUST
+     KC_ESC  , KC_Q ,  KC_W   ,  KC_E  ,   KC_R ,   KC_T ,                                          KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_BSPC,
+     KC_LSFT , KC_A ,  KC_S   ,  KC_D  ,   KC_F ,   KC_G ,                                          KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN, KC_QUOTE,
+     KC_LCTL , KC_Z ,  KC_X   ,  KC_C  ,   KC_V ,   KC_B ,   KC_LBRC, KC_TAB,     FKEYS  , KC_RBRC, KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, KC_RSFT,
+                                 MOUSE ,   KC_LALT, KC_LGUI, KC_SPC,  NAV   ,     SYM    , KC_ENT , _______, FKEYS,   ADJUST
+    ),
+/*
+ * Base Layer: COLEMAK
+ *
+ * ,-------------------------------------------.                              ,-------------------------------------------.
+ * |        |   Q  |   W  |   F  |   P  |   B  |                              |   J  |   L  |   U  |   Y  | ; :  |        |
+ * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+ * |        |   A  |   R  |   S  |   T  |   G  |                              |   M  |   N  |   E  |   I  |   O  |        |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+ * |        |   Z  |   X  |   C  |   D  |   V  |      |      |  |      |      |   K  |   H  | ,  < | . >  | /  ? |        |
+ * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+    [_COLEMAK] = LAYOUT(
+     KC_ESC  , KC_Q ,  KC_W   ,  KC_F   ,  KC_P ,   KC_B ,                                           KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, _______,
+     KC_LSFT , KC_A ,  KC_R   ,  KC_S   ,  KC_T ,   KC_G ,                                           KC_M,    KC_N,    KC_E,    KC_I,   KC_O,    _______,
+     KC_LCTL , KC_Z ,  KC_X   ,  KC_C   ,  KC_D ,   KC_V ,   _______, _______,     _______, _______, KC_K,    KC_H,    KC_COMM, KC_DOT, KC_SLSH, _______,
+                                 _______,  _______, _______, _______, _______,     _______, _______,  _______, _______, _______
     ),
 
 /*ontinuity testing today and that's what it looks like. Not to mention, the office is very dry so static build-up is a bit of a problem. Most of the time, when I come back to my desk, touching my ke
  * Nav Layer: Media, navigation
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |      |      |      |Vol U |      |                              |      |      |      |      |      |Delete  |
+ * |        |      |      |      |Vol U |      |                              |      |      |      |      |      |        |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        |M Prev|M togg|M Next|Vol D |      |                              |  ←   |  ↓   |  ↑   |  →   |      |        |
+ * |        |M Prev|M togg|M Next| Bkps | Del  |                              |  ←   |  ↓   |  ↑   |  →   |      |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |      |  |      |      |      |      |      |      |      |        |
+ * |        |      |      |      |Vol D |      |      |      |  |      |      |      |Delete|      |      |      |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_NAV] = LAYOUT(
-      _______, _______, _______, _______, KC_VOLU, _______,                                     _______, _______, _______, _______, _______, KC_DEL,
-      _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLD, _______,                                     KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+      _______, _______, _______, _______, KC_VOLU, _______,                                     _______, _______, _______, _______, _______, _______,
+      _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_BSPC, KC_DEL,                                      KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______,
+      _______, _______, _______, _______, KC_VOLD, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 
@@ -140,7 +142,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_ADJUST] = LAYOUT(
-      _______, _______, _______, _______, _______, _______,                                    _______, _______, _______, _______,  _______, _______,
+      QWERTY,  COLEMAK, _______, _______, _______, _______,                                    _______, _______, _______, _______,  _______, _______,
       _______, _______, _______, _______, _______, _______,                                    RGB_TOG, RGB_SAI, RGB_HUI, RGB_VAI,  RGB_MOD, _______,
       _______, _______, _______, _______, _______, _______,_______, _______, _______, _______, _______, RGB_SAD, RGB_HUD, RGB_VAD, RGB_RMOD, _______,
                                  _______, _______, _______,_______, _______, _______, _______, _______, _______, _______
@@ -173,7 +175,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * For your convenience, here's a copy of those settings so that you can uncomment them if you wish to apply your own modifications.
  * DO NOT edit the rev1.c file; instead override the weakly defined default functions by your own.
  */
-
 #ifdef OLED_ENABLE
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) { return OLED_ROTATION_180; }
@@ -197,6 +198,9 @@ bool oled_task_user(void) {
             case _QWERTY:
                 oled_write_P(PSTR("QWERTY\n"), false);
                 break;
+            case _COLEMAK:
+                oled_write_P(PSTR("COLEMAK\n"), false);
+                break;
             case _NAV:
                 oled_write_P(PSTR("Nav\n"), false);
                 break;
@@ -209,15 +213,12 @@ bool oled_task_user(void) {
             case _ADJUST:
                 oled_write_P(PSTR("Adjust\n"), false);
                 break;
+            case _MOUSE:
+                oled_write_P(PSTR("Mouse/Macro\n"), false);
+                break;
             default:
                 oled_write_P(PSTR("Undefined\n"), false);
         }
-
-        // Write host Keyboard LED Status to OLEDs
-        led_t led_usb_state = host_keyboard_led_state();
-        oled_write_P(led_usb_state.num_lock    ? PSTR("NUMLCK ") : PSTR("       "), false);
-        oled_write_P(led_usb_state.caps_lock   ? PSTR("CAPLCK ") : PSTR("       "), false);
-        oled_write_P(led_usb_state.scroll_lock ? PSTR("SCRLCK ") : PSTR("       "), false);
     } else {
         // clang-format off
         static const char PROGMEM kyria_logo[] = {
