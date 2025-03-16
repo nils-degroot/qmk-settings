@@ -2,6 +2,7 @@
 
 enum layers {
     _QWERTY = 0,
+	_DVORAK,
     _NAV,
     _SYM,
     _FUNCTION,
@@ -12,6 +13,7 @@ enum layers {
 
 // Aliases for readability
 #define QWERTY   DF(_QWERTY)
+#define DVORAK   DF(_DVORAK)
 
 #define SYM      MO(_SYM)
 #define NAV      MO(_NAV)
@@ -42,6 +44,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  MOUSE ,   KC_LALT, KC_LGUI, KC_SPC,  NAV   ,     SYM    , KC_ENT , KC_PSCR, FKEYS,   ADJUST
     ),
 /*
+ * Base Layer: DVORAK
+ *
+ * ,-------------------------------------------.                              ,-------------------------------------------.
+ * |  Esc   |   Q  |   W  |   E  |   R  |   T  |                              |   Y  |   U  |   I  |   O  |   P  | Bkps   |
+ * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+ * | LShift |   A  |   S  |   D  |   F  |   G  |                              |   H  |   J  |   K  |   L  | ;  : |  ' "   |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+ * |  Ctl   |   Z  |   X  |   C  |   V  |   B  | [ {  | Tab  |  |F-keys|  ] } |   N  |   M  | ,  < | . >  | /  ? | RShift |
+ * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+ *                        |Mouse | Lalt | LGUI | Space| Nav  |  | Sym  |Enter | Print |FKeys |Adjust|
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+    [_DVORAK] = LAYOUT(
+     KC_ESC , KC_COMM, KC_DOT,   KC_P ,   KC_Y ,   KC_F ,                                          KC_G,    KC_C,    KC_R,    KC_L,   KC_SLSH, KC_BSPC,
+     KC_LSFT, KC_A,    KC_O,    KC_E  ,   KC_U ,   KC_I ,                                          KC_D,    KC_H,    KC_T,    KC_N,   KC_S,    KC_QUOTE,
+     KC_LCTL, KC_SCLN, KC_Q,    KC_J  ,   KC_K ,   KC_X ,   KC_LBRC, KC_TAB,     FKEYS  , KC_RBRC, KC_B,    KC_M,    KC_W,    KC_V,   KC_Z,    KC_RSFT,
+                                MOUSE ,   KC_LALT, KC_LGUI, KC_SPC,  NAV   ,     SYM    , KC_ENT , KC_PSCR, FKEYS,   ADJUST
+    ),
+/*
  * Nav Layer: Media, navigation
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
@@ -56,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_NAV] = LAYOUT(
-      _______, _______, _______, _______, KC_VOLU, _______,                                     KC_HOME, KC_PGDN, KC_PGUP, KC_END,  _______, _______,
+      _______, QWERTY,  DVORAK,  _______, KC_VOLU, _______,                                     KC_HOME, KC_PGDN, KC_PGUP, KC_END,  _______, _______,
       _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_BSPC, KC_DEL,                                      KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______,
       _______, _______, _______, _______, KC_VOLD, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
@@ -288,6 +310,9 @@ void write_layer_str(void) {
 	switch (get_highest_layer(layer_state | default_layer_state)) {
 		case _QWERTY:
 			sprintf(layer_str, "Layer: QWERTY");
+			break;
+		case _DVORAK:
+			sprintf(layer_str, "Layer: DVORAK");
 			break;
 		case _NAV:
 			sprintf(layer_str, "Layer:    NAV");
