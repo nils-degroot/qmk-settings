@@ -10,7 +10,6 @@ enum layers {
 	_MOUSE,
 };
 
-
 // Aliases for readability
 #define QWERTY   DF(_QWERTY)
 #define DVORAK   DF(_DVORAK)
@@ -33,8 +32,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * |  Ctl   |   Z  |   X  |   C  |   V  |   B  | [ {  | Tab  |  |F-keys|  ] } |   N  |   M  | ,  < | . >  | /  ? | RShift |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |Mouse | Lalt | LGUI | Space| Nav  |  | Sym  |Enter | Print |FKeys |Adjust|
- *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        |Mouse | Lalt | LGUI | Space| Nav  |  | Sym  |Enter | Print|FKeys |Adjust|
  *                        `----------------------------------'  `----------------------------------'
  */
     [_QWERTY] = LAYOUT(
@@ -44,24 +42,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  MOUSE ,   KC_LALT, KC_LGUI, KC_SPC,  NAV   ,     SYM    , KC_ENT , KC_PSCR, FKEYS,   ADJUST
     ),
 /*
- * Base Layer: DVORAK
+ * Base Layer: Dvorak
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |  Esc   |   Q  |   W  |   E  |   R  |   T  |                              |   Y  |   U  |   I  |   O  |   P  | Bkps   |
+ * |  Esc   | ' "  | , <  | . >  |   P  |   Y  |                              |   F  |   G  |   C  |   R  |   L  |  Bksp  |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * | LShift |   A  |   S  |   D  |   F  |   G  |                              |   H  |   J  |   K  |   L  | ;  : |  ' "   |
+ * | LShift |   A  |   O  |   E  |   U  |   I  |                              |   D  |   H  |   T  |   N  |   S  |   -    |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |  Ctl   |   Z  |   X  |   C  |   V  |   B  | [ {  | Tab  |  |F-keys|  ] } |   N  |   M  | ,  < | . >  | /  ? | RShift |
+ * |  Ctl   | ; :  |   Q  |   J  |   K  |   X  | [ {  | Tab  |  |F-keys|  ] } |   B  |   M  |   W  |   V  |   Z  | RShift |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |Mouse | Lalt | LGUI | Space| Nav  |  | Sym  |Enter | Print |FKeys |Adjust|
- *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        |Mouse | Lalt | LGUI | Space| Nav  |  | Sym  |Enter | Print|FKeys |Adjust|
  *                        `----------------------------------'  `----------------------------------'
  */
     [_DVORAK] = LAYOUT(
-     KC_ESC , KC_COMM, KC_DOT,   KC_P ,   KC_Y ,   KC_F ,                                          KC_G,    KC_C,    KC_R,    KC_L,   KC_SLSH, KC_BSPC,
-     KC_LSFT, KC_A,    KC_O,    KC_E  ,   KC_U ,   KC_I ,                                          KC_D,    KC_H,    KC_T,    KC_N,   KC_S,    KC_QUOTE,
-     KC_LCTL, KC_SCLN, KC_Q,    KC_J  ,   KC_K ,   KC_X ,   KC_LBRC, KC_TAB,     FKEYS  , KC_RBRC, KC_B,    KC_M,    KC_W,    KC_V,   KC_Z,    KC_RSFT,
-                                MOUSE ,   KC_LALT, KC_LGUI, KC_SPC,  NAV   ,     SYM    , KC_ENT , KC_PSCR, FKEYS,   ADJUST
+     KC_ESC  ,KC_QUOTE,KC_COMM,  KC_DOT,   KC_P ,   KC_Y ,                                          KC_F,   KC_G ,  KC_C ,   KC_R ,  KC_L , KC_BSPC,
+     KC_LSFT ,KC_A ,   KC_O   ,  KC_E  ,   KC_U ,   KC_I ,                                          KC_D,   KC_H ,  KC_T ,   KC_N ,  KC_S , KC_MINS,
+     KC_LCTL ,KC_SCLN, KC_Q   ,  KC_J  ,   KC_K ,   KC_X ,   KC_LBRC, KC_TAB,     FKEYS  , KC_RBRC, KC_B,   KC_M ,  KC_W ,   KC_V ,  KC_Z , KC_RSFT,
+                                 MOUSE ,   KC_LALT, KC_LGUI, KC_SPC,  NAV   ,     SYM    , KC_ENT , KC_PSCR, FKEYS, ADJUST
     ),
 /*
  * Nav Layer: Media, navigation
