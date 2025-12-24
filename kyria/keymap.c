@@ -20,6 +20,17 @@ enum layers {
 #define ADJUST   MO(_ADJUST)
 #define MOUSE    MO(_MOUSE)
 
+// Mod-tap
+#define HOME_A 	MT(MOD_LGUI, KC_A)
+#define HOME_S 	MT(MOD_LALT, KC_S)
+#define HOME_D 	MT(MOD_LSFT, KC_D)
+#define HOME_F 	MT(MOD_LCTL, KC_F)
+
+#define HOME_J 	MT(MOD_RCTL, KC_J)
+#define HOME_K 	MT(MOD_RSFT, KC_K)
+#define HOME_L 	MT(MOD_LALT, KC_L)
+#define HOME_SC MT(MOD_RGUI, KC_SCLN)
+
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
@@ -37,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
     [_QWERTY] = LAYOUT(
      KC_ESC  , KC_Q ,  KC_W   ,  KC_E  ,   KC_R ,   KC_T ,                                          KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_BSPC,
-     KC_LSFT , KC_A ,  KC_S   ,  KC_D  ,   KC_F ,   KC_G ,                                          KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN, KC_QUOTE,
+     KC_LSFT , HOME_A, HOME_S ,  HOME_D,   HOME_F,  KC_G ,                                          KC_H,    HOME_J,  HOME_K,  HOME_L, HOME_SC, KC_QUOTE,
      KC_LCTL , KC_Z ,  KC_X   ,  KC_C  ,   KC_V ,   KC_B ,   KC_LBRC, KC_TAB,     FKEYS  , KC_RBRC, KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, KC_RSFT,
                                  MOUSE ,   KC_LALT, KC_LGUI, KC_SPC,  NAV   ,     SYM    , KC_ENT , KC_PSCR, FKEYS,   ADJUST
     ),
